@@ -7,7 +7,7 @@
 #
 Name     : compat-libxml2-soname2
 Version  : 2.13.6
-Release  : 2
+Release  : 3
 URL      : https://download.gnome.org/sources/libxml2/2.13/libxml2-2.13.6.tar.xz
 Source0  : https://download.gnome.org/sources/libxml2/2.13/libxml2-2.13.6.tar.xz
 Summary  : libXML library version2.
