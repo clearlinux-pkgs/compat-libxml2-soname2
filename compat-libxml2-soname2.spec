@@ -7,7 +7,7 @@
 #
 Name     : compat-libxml2-soname2
 Version  : 2.13.6
-Release  : 3
+Release  : 4
 URL      : https://download.gnome.org/sources/libxml2/2.13/libxml2-2.13.6.tar.xz
 Source0  : https://download.gnome.org/sources/libxml2/2.13/libxml2-2.13.6.tar.xz
 Summary  : libXML library version2.
@@ -19,6 +19,14 @@ BuildRequires : buildreq-configure
 BuildRequires : buildreq-gnome
 BuildRequires : bzip2-dev
 BuildRequires : file
+BuildRequires : gcc-dev32
+BuildRequires : gcc-libgcc32
+BuildRequires : gcc-libstdc++32
+BuildRequires : glibc-dev32
+BuildRequires : glibc-libc32
+BuildRequires : pkg-config
+BuildRequires : pkgconfig(32icu-i18n)
+BuildRequires : pkgconfig(32zlib)
 BuildRequires : pkgconfig(icu-i18n)
 BuildRequires : pkgconfig(zlib)
 BuildRequires : python3-dev
@@ -49,6 +57,15 @@ Requires: compat-libxml2-soname2-license = %{version}-%{release}
 lib components for the compat-libxml2-soname2 package.
 
 
+%package lib32
+Summary: lib32 components for the compat-libxml2-soname2 package.
+Group: Default
+Requires: compat-libxml2-soname2-license = %{version}-%{release}
+
+%description lib32
+lib32 components for the compat-libxml2-soname2 package.
+
+
 %package license
 Summary: license components for the compat-libxml2-soname2 package.
 Group: Default
@@ -61,13 +78,16 @@ license components for the compat-libxml2-soname2 package.
 %setup -q -n libxml2-2.13.6
 cd %{_builddir}/libxml2-2.13.6
 %patch -P 1 -p1
+pushd ..
+cp -a libxml2-2.13.6 build32
+popd
 
 %build
 export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1745345665
+export SOURCE_DATE_EPOCH=1745352556
 export GCC_IGNORE_WERROR=1
 export AR=gcc-ar
 export RANLIB=gcc-ranlib
@@ -87,12 +107,24 @@ export GOAMD64=v2
 --without-lzma
 make  %{?_smp_mflags}
 
+pushd ../build32/
+export PKG_CONFIG_PATH="/usr/lib32/pkgconfig:/usr/share/pkgconfig"
+ASFLAGS="${CLEAR_INTERMEDIATE_ASFLAGS}${CLEAR_INTERMEDIATE_ASFLAGS:+ }--32"
+CFLAGS="${CLEAR_INTERMEDIATE_CFLAGS}${CLEAR_INTERMEDIATE_CFLAGS:+ }-m32 -mstackrealign"
+CXXFLAGS="${CLEAR_INTERMEDIATE_CXXFLAGS}${CLEAR_INTERMEDIATE_CXXFLAGS:+ }-m32 -mstackrealign"
+LDFLAGS="${CLEAR_INTERMEDIATE_LDFLAGS}${CLEAR_INTERMEDIATE_LDFLAGS:+ }-m32 -mstackrealign"
+%configure --disable-static --with-http \
+--without-lzma --without-python  --libdir=/usr/lib32 --build=i686-generic-linux-gnu --host=i686-generic-linux-gnu --target=i686-clr-linux-gnu
+make  %{?_smp_mflags}
+popd
 %check
 export LANG=C.UTF-8
 export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 make %{?_smp_mflags} check
+cd ../build32;
+make %{?_smp_mflags} check || :
 
 %install
 export GCC_IGNORE_WERROR=1
@@ -109,11 +141,26 @@ FFLAGS="$CLEAR_INTERMEDIATE_FFLAGS"
 FCFLAGS="$CLEAR_INTERMEDIATE_FCFLAGS"
 ASFLAGS="$CLEAR_INTERMEDIATE_ASFLAGS"
 LDFLAGS="$CLEAR_INTERMEDIATE_LDFLAGS"
-export SOURCE_DATE_EPOCH=1745345665
+export SOURCE_DATE_EPOCH=1745352556
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/compat-libxml2-soname2
 cp %{_builddir}/libxml2-%{version}/Copyright %{buildroot}/usr/share/package-licenses/compat-libxml2-soname2/8b8a61fcd505743acbe94866f4f73b2fdf1f359f || :
 export GOAMD64=v2
+pushd ../build32/
+%make_install32
+if [ -d  %{buildroot}/usr/lib32/pkgconfig ]
+then
+pushd %{buildroot}/usr/lib32/pkgconfig
+for i in *.pc ; do ln -s $i 32$i ; done
+popd
+fi
+if [ -d %{buildroot}/usr/share/pkgconfig ]
+then
+pushd %{buildroot}/usr/share/pkgconfig
+for i in *.pc ; do ln -s $i 32$i ; done
+popd
+fi
+popd
 GOAMD64=v2
 %make_install
 ## Remove excluded files
@@ -171,6 +218,10 @@ rm -f %{buildroot}*/usr/lib/python3.13/site-packages/__pycache__/libxml2.cpython
 rm -f %{buildroot}*/usr/lib/python3.13/site-packages/drv_libxml2.py
 rm -f %{buildroot}*/usr/lib/python3.13/site-packages/libxml2.py
 rm -f %{buildroot}*/usr/lib/python3.13/site-packages/libxml2mod.so
+rm -f %{buildroot}*/usr/lib32/cmake/libxml2/libxml2-config.cmake
+rm -f %{buildroot}*/usr/lib32/libxml2.so
+rm -f %{buildroot}*/usr/lib32/pkgconfig/32libxml-2.0.pc
+rm -f %{buildroot}*/usr/lib32/pkgconfig/libxml-2.0.pc
 rm -f %{buildroot}*/usr/lib64/cmake/libxml2/libxml2-config.cmake
 rm -f %{buildroot}*/usr/lib64/libxml2.so
 rm -f %{buildroot}*/usr/lib64/pkgconfig/libxml-2.0.pc
@@ -242,6 +293,11 @@ rm -f %{buildroot}*/usr/share/man/man1/xmllint.1
 %defattr(-,root,root,-)
 /usr/lib64/libxml2.so.2
 /usr/lib64/libxml2.so.2.13.6
+
+%files lib32
+%defattr(-,root,root,-)
+/usr/lib32/libxml2.so.2
+/usr/lib32/libxml2.so.2.13.6
 
 %files license
 %defattr(0644,root,root,0755)
