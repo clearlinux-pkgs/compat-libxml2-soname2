@@ -1,0 +1,5 @@
+PKG_NAME := compat-libxml2-soname2
+URL = https://download.gnome.org/sources/libxml2/2.13/libxml2-2.13.6.tar.xz
+ARCHIVES = 
+
+include ../common/Makefile.common

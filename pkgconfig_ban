@@ -1,0 +1,8 @@
+#
+# This file contains pkgconfig build requirements that get picked up but are 
+# undesirable. One name per line, no whitespace.
+#
+32python-${PYTHON_VERSION}
+python-${PYTHON_VERSION}
+32liblzma
+liblzma
