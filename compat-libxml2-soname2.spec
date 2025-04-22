@@ -7,18 +7,14 @@
 #
 Name     : compat-libxml2-soname2
 Version  : 2.13.6
-Release  : 1
+Release  : 2
 URL      : https://download.gnome.org/sources/libxml2/2.13/libxml2-2.13.6.tar.xz
 Source0  : https://download.gnome.org/sources/libxml2/2.13/libxml2-2.13.6.tar.xz
 Summary  : libXML library version2.
 Group    : Development/Tools
 License  : MIT
-Requires: compat-libxml2-soname2-bin = %{version}-%{release}
 Requires: compat-libxml2-soname2-lib = %{version}-%{release}
 Requires: compat-libxml2-soname2-license = %{version}-%{release}
-Requires: compat-libxml2-soname2-man = %{version}-%{release}
-Requires: compat-libxml2-soname2-python = %{version}-%{release}
-Requires: compat-libxml2-soname2-python3 = %{version}-%{release}
 BuildRequires : buildreq-configure
 BuildRequires : buildreq-gnome
 BuildRequires : bzip2-dev
@@ -44,36 +40,6 @@ https://gitlab.gnome.org/GNOME/libxml2/-/wikis/home
 and
 https://gitlab.gnome.org/GNOME/libxslt/-/wikis/home
 
-%package bin
-Summary: bin components for the compat-libxml2-soname2 package.
-Group: Binaries
-Requires: compat-libxml2-soname2-license = %{version}-%{release}
-
-%description bin
-bin components for the compat-libxml2-soname2 package.
-
-
-%package dev
-Summary: dev components for the compat-libxml2-soname2 package.
-Group: Development
-Requires: compat-libxml2-soname2-lib = %{version}-%{release}
-Requires: compat-libxml2-soname2-bin = %{version}-%{release}
-Provides: compat-libxml2-soname2-devel = %{version}-%{release}
-Requires: compat-libxml2-soname2 = %{version}-%{release}
-
-%description dev
-dev components for the compat-libxml2-soname2 package.
-
-
-%package doc
-Summary: doc components for the compat-libxml2-soname2 package.
-Group: Documentation
-Requires: compat-libxml2-soname2-man = %{version}-%{release}
-
-%description doc
-doc components for the compat-libxml2-soname2 package.
-
-
 %package lib
 Summary: lib components for the compat-libxml2-soname2 package.
 Group: Libraries
@@ -91,32 +57,6 @@ Group: Default
 license components for the compat-libxml2-soname2 package.
 
 
-%package man
-Summary: man components for the compat-libxml2-soname2 package.
-Group: Default
-
-%description man
-man components for the compat-libxml2-soname2 package.
-
-
-%package python
-Summary: python components for the compat-libxml2-soname2 package.
-Group: Default
-Requires: compat-libxml2-soname2-python3 = %{version}-%{release}
-
-%description python
-python components for the compat-libxml2-soname2 package.
-
-
-%package python3
-Summary: python3 components for the compat-libxml2-soname2 package.
-Group: Default
-Requires: python3-core
-
-%description python3
-python3 components for the compat-libxml2-soname2 package.
-
-
 %prep
 %setup -q -n libxml2-2.13.6
 cd %{_builddir}/libxml2-2.13.6
@@ -127,7 +67,7 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1745345395
+export SOURCE_DATE_EPOCH=1745345665
 export GCC_IGNORE_WERROR=1
 export AR=gcc-ar
 export RANLIB=gcc-ranlib
@@ -169,134 +109,134 @@ FFLAGS="$CLEAR_INTERMEDIATE_FFLAGS"
 FCFLAGS="$CLEAR_INTERMEDIATE_FCFLAGS"
 ASFLAGS="$CLEAR_INTERMEDIATE_ASFLAGS"
 LDFLAGS="$CLEAR_INTERMEDIATE_LDFLAGS"
-export SOURCE_DATE_EPOCH=1745345395
+export SOURCE_DATE_EPOCH=1745345665
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/compat-libxml2-soname2
 cp %{_builddir}/libxml2-%{version}/Copyright %{buildroot}/usr/share/package-licenses/compat-libxml2-soname2/8b8a61fcd505743acbe94866f4f73b2fdf1f359f || :
 export GOAMD64=v2
 GOAMD64=v2
 %make_install
+## Remove excluded files
+rm -f %{buildroot}*/usr/bin/xml2-config
+rm -f %{buildroot}*/usr/bin/xmlcatalog
+rm -f %{buildroot}*/usr/bin/xmllint
+rm -f %{buildroot}*/usr/include/libxml2/libxml/HTMLparser.h
+rm -f %{buildroot}*/usr/include/libxml2/libxml/HTMLtree.h
+rm -f %{buildroot}*/usr/include/libxml2/libxml/SAX.h
+rm -f %{buildroot}*/usr/include/libxml2/libxml/SAX2.h
+rm -f %{buildroot}*/usr/include/libxml2/libxml/c14n.h
+rm -f %{buildroot}*/usr/include/libxml2/libxml/catalog.h
+rm -f %{buildroot}*/usr/include/libxml2/libxml/chvalid.h
+rm -f %{buildroot}*/usr/include/libxml2/libxml/debugXML.h
+rm -f %{buildroot}*/usr/include/libxml2/libxml/dict.h
+rm -f %{buildroot}*/usr/include/libxml2/libxml/encoding.h
+rm -f %{buildroot}*/usr/include/libxml2/libxml/entities.h
+rm -f %{buildroot}*/usr/include/libxml2/libxml/globals.h
+rm -f %{buildroot}*/usr/include/libxml2/libxml/hash.h
+rm -f %{buildroot}*/usr/include/libxml2/libxml/list.h
+rm -f %{buildroot}*/usr/include/libxml2/libxml/nanoftp.h
+rm -f %{buildroot}*/usr/include/libxml2/libxml/nanohttp.h
+rm -f %{buildroot}*/usr/include/libxml2/libxml/parser.h
+rm -f %{buildroot}*/usr/include/libxml2/libxml/parserInternals.h
+rm -f %{buildroot}*/usr/include/libxml2/libxml/pattern.h
+rm -f %{buildroot}*/usr/include/libxml2/libxml/relaxng.h
+rm -f %{buildroot}*/usr/include/libxml2/libxml/schemasInternals.h
+rm -f %{buildroot}*/usr/include/libxml2/libxml/schematron.h
+rm -f %{buildroot}*/usr/include/libxml2/libxml/threads.h
+rm -f %{buildroot}*/usr/include/libxml2/libxml/tree.h
+rm -f %{buildroot}*/usr/include/libxml2/libxml/uri.h
+rm -f %{buildroot}*/usr/include/libxml2/libxml/valid.h
+rm -f %{buildroot}*/usr/include/libxml2/libxml/xinclude.h
+rm -f %{buildroot}*/usr/include/libxml2/libxml/xlink.h
+rm -f %{buildroot}*/usr/include/libxml2/libxml/xmlIO.h
+rm -f %{buildroot}*/usr/include/libxml2/libxml/xmlautomata.h
+rm -f %{buildroot}*/usr/include/libxml2/libxml/xmlerror.h
+rm -f %{buildroot}*/usr/include/libxml2/libxml/xmlexports.h
+rm -f %{buildroot}*/usr/include/libxml2/libxml/xmlmemory.h
+rm -f %{buildroot}*/usr/include/libxml2/libxml/xmlmodule.h
+rm -f %{buildroot}*/usr/include/libxml2/libxml/xmlreader.h
+rm -f %{buildroot}*/usr/include/libxml2/libxml/xmlregexp.h
+rm -f %{buildroot}*/usr/include/libxml2/libxml/xmlsave.h
+rm -f %{buildroot}*/usr/include/libxml2/libxml/xmlschemas.h
+rm -f %{buildroot}*/usr/include/libxml2/libxml/xmlschemastypes.h
+rm -f %{buildroot}*/usr/include/libxml2/libxml/xmlstring.h
+rm -f %{buildroot}*/usr/include/libxml2/libxml/xmlunicode.h
+rm -f %{buildroot}*/usr/include/libxml2/libxml/xmlversion.h
+rm -f %{buildroot}*/usr/include/libxml2/libxml/xmlwriter.h
+rm -f %{buildroot}*/usr/include/libxml2/libxml/xpath.h
+rm -f %{buildroot}*/usr/include/libxml2/libxml/xpathInternals.h
+rm -f %{buildroot}*/usr/include/libxml2/libxml/xpointer.h
+rm -f %{buildroot}*/usr/lib/python3.13/site-packages/__pycache__/drv_libxml2.cpython-313.pyc
+rm -f %{buildroot}*/usr/lib/python3.13/site-packages/__pycache__/libxml2.cpython-313.pyc
+rm -f %{buildroot}*/usr/lib/python3.13/site-packages/drv_libxml2.py
+rm -f %{buildroot}*/usr/lib/python3.13/site-packages/libxml2.py
+rm -f %{buildroot}*/usr/lib/python3.13/site-packages/libxml2mod.so
+rm -f %{buildroot}*/usr/lib64/cmake/libxml2/libxml2-config.cmake
+rm -f %{buildroot}*/usr/lib64/libxml2.so
+rm -f %{buildroot}*/usr/lib64/pkgconfig/libxml-2.0.pc
+rm -f %{buildroot}*/usr/share/aclocal/libxml.m4
+rm -f %{buildroot}*/usr/share/doc/libxml2/xmlcatalog.html
+rm -f %{buildroot}*/usr/share/doc/libxml2/xmllint.html
+rm -f %{buildroot}*/usr/share/gtk-doc/html/libxml2/general.html
+rm -f %{buildroot}*/usr/share/gtk-doc/html/libxml2/home.png
+rm -f %{buildroot}*/usr/share/gtk-doc/html/libxml2/index.html
+rm -f %{buildroot}*/usr/share/gtk-doc/html/libxml2/left.png
+rm -f %{buildroot}*/usr/share/gtk-doc/html/libxml2/libxml2-HTMLparser.html
+rm -f %{buildroot}*/usr/share/gtk-doc/html/libxml2/libxml2-HTMLtree.html
+rm -f %{buildroot}*/usr/share/gtk-doc/html/libxml2/libxml2-SAX.html
+rm -f %{buildroot}*/usr/share/gtk-doc/html/libxml2/libxml2-SAX2.html
+rm -f %{buildroot}*/usr/share/gtk-doc/html/libxml2/libxml2-c14n.html
+rm -f %{buildroot}*/usr/share/gtk-doc/html/libxml2/libxml2-catalog.html
+rm -f %{buildroot}*/usr/share/gtk-doc/html/libxml2/libxml2-chvalid.html
+rm -f %{buildroot}*/usr/share/gtk-doc/html/libxml2/libxml2-debugXML.html
+rm -f %{buildroot}*/usr/share/gtk-doc/html/libxml2/libxml2-dict.html
+rm -f %{buildroot}*/usr/share/gtk-doc/html/libxml2/libxml2-encoding.html
+rm -f %{buildroot}*/usr/share/gtk-doc/html/libxml2/libxml2-entities.html
+rm -f %{buildroot}*/usr/share/gtk-doc/html/libxml2/libxml2-globals.html
+rm -f %{buildroot}*/usr/share/gtk-doc/html/libxml2/libxml2-hash.html
+rm -f %{buildroot}*/usr/share/gtk-doc/html/libxml2/libxml2-list.html
+rm -f %{buildroot}*/usr/share/gtk-doc/html/libxml2/libxml2-nanoftp.html
+rm -f %{buildroot}*/usr/share/gtk-doc/html/libxml2/libxml2-nanohttp.html
+rm -f %{buildroot}*/usr/share/gtk-doc/html/libxml2/libxml2-parser.html
+rm -f %{buildroot}*/usr/share/gtk-doc/html/libxml2/libxml2-parserInternals.html
+rm -f %{buildroot}*/usr/share/gtk-doc/html/libxml2/libxml2-pattern.html
+rm -f %{buildroot}*/usr/share/gtk-doc/html/libxml2/libxml2-relaxng.html
+rm -f %{buildroot}*/usr/share/gtk-doc/html/libxml2/libxml2-schemasInternals.html
+rm -f %{buildroot}*/usr/share/gtk-doc/html/libxml2/libxml2-schematron.html
+rm -f %{buildroot}*/usr/share/gtk-doc/html/libxml2/libxml2-threads.html
+rm -f %{buildroot}*/usr/share/gtk-doc/html/libxml2/libxml2-tree.html
+rm -f %{buildroot}*/usr/share/gtk-doc/html/libxml2/libxml2-uri.html
+rm -f %{buildroot}*/usr/share/gtk-doc/html/libxml2/libxml2-valid.html
+rm -f %{buildroot}*/usr/share/gtk-doc/html/libxml2/libxml2-xinclude.html
+rm -f %{buildroot}*/usr/share/gtk-doc/html/libxml2/libxml2-xlink.html
+rm -f %{buildroot}*/usr/share/gtk-doc/html/libxml2/libxml2-xmlIO.html
+rm -f %{buildroot}*/usr/share/gtk-doc/html/libxml2/libxml2-xmlautomata.html
+rm -f %{buildroot}*/usr/share/gtk-doc/html/libxml2/libxml2-xmlerror.html
+rm -f %{buildroot}*/usr/share/gtk-doc/html/libxml2/libxml2-xmlexports.html
+rm -f %{buildroot}*/usr/share/gtk-doc/html/libxml2/libxml2-xmlmemory.html
+rm -f %{buildroot}*/usr/share/gtk-doc/html/libxml2/libxml2-xmlmodule.html
+rm -f %{buildroot}*/usr/share/gtk-doc/html/libxml2/libxml2-xmlreader.html
+rm -f %{buildroot}*/usr/share/gtk-doc/html/libxml2/libxml2-xmlregexp.html
+rm -f %{buildroot}*/usr/share/gtk-doc/html/libxml2/libxml2-xmlsave.html
+rm -f %{buildroot}*/usr/share/gtk-doc/html/libxml2/libxml2-xmlschemas.html
+rm -f %{buildroot}*/usr/share/gtk-doc/html/libxml2/libxml2-xmlschemastypes.html
+rm -f %{buildroot}*/usr/share/gtk-doc/html/libxml2/libxml2-xmlstring.html
+rm -f %{buildroot}*/usr/share/gtk-doc/html/libxml2/libxml2-xmlunicode.html
+rm -f %{buildroot}*/usr/share/gtk-doc/html/libxml2/libxml2-xmlversion.html
+rm -f %{buildroot}*/usr/share/gtk-doc/html/libxml2/libxml2-xmlwriter.html
+rm -f %{buildroot}*/usr/share/gtk-doc/html/libxml2/libxml2-xpath.html
+rm -f %{buildroot}*/usr/share/gtk-doc/html/libxml2/libxml2-xpathInternals.html
+rm -f %{buildroot}*/usr/share/gtk-doc/html/libxml2/libxml2-xpointer.html
+rm -f %{buildroot}*/usr/share/gtk-doc/html/libxml2/libxml2.devhelp2
+rm -f %{buildroot}*/usr/share/gtk-doc/html/libxml2/right.png
+rm -f %{buildroot}*/usr/share/gtk-doc/html/libxml2/style.css
+rm -f %{buildroot}*/usr/share/gtk-doc/html/libxml2/up.png
+rm -f %{buildroot}*/usr/share/man/man1/xml2-config.1
+rm -f %{buildroot}*/usr/share/man/man1/xmlcatalog.1
+rm -f %{buildroot}*/usr/share/man/man1/xmllint.1
 
 %files
 %defattr(-,root,root,-)
-
-%files bin
-%defattr(-,root,root,-)
-/usr/bin/xml2-config
-/usr/bin/xmlcatalog
-/usr/bin/xmllint
-
-%files dev
-%defattr(-,root,root,-)
-/usr/include/libxml2/libxml/HTMLparser.h
-/usr/include/libxml2/libxml/HTMLtree.h
-/usr/include/libxml2/libxml/SAX.h
-/usr/include/libxml2/libxml/SAX2.h
-/usr/include/libxml2/libxml/c14n.h
-/usr/include/libxml2/libxml/catalog.h
-/usr/include/libxml2/libxml/chvalid.h
-/usr/include/libxml2/libxml/debugXML.h
-/usr/include/libxml2/libxml/dict.h
-/usr/include/libxml2/libxml/encoding.h
-/usr/include/libxml2/libxml/entities.h
-/usr/include/libxml2/libxml/globals.h
-/usr/include/libxml2/libxml/hash.h
-/usr/include/libxml2/libxml/list.h
-/usr/include/libxml2/libxml/nanoftp.h
-/usr/include/libxml2/libxml/nanohttp.h
-/usr/include/libxml2/libxml/parser.h
-/usr/include/libxml2/libxml/parserInternals.h
-/usr/include/libxml2/libxml/pattern.h
-/usr/include/libxml2/libxml/relaxng.h
-/usr/include/libxml2/libxml/schemasInternals.h
-/usr/include/libxml2/libxml/schematron.h
-/usr/include/libxml2/libxml/threads.h
-/usr/include/libxml2/libxml/tree.h
-/usr/include/libxml2/libxml/uri.h
-/usr/include/libxml2/libxml/valid.h
-/usr/include/libxml2/libxml/xinclude.h
-/usr/include/libxml2/libxml/xlink.h
-/usr/include/libxml2/libxml/xmlIO.h
-/usr/include/libxml2/libxml/xmlautomata.h
-/usr/include/libxml2/libxml/xmlerror.h
-/usr/include/libxml2/libxml/xmlexports.h
-/usr/include/libxml2/libxml/xmlmemory.h
-/usr/include/libxml2/libxml/xmlmodule.h
-/usr/include/libxml2/libxml/xmlreader.h
-/usr/include/libxml2/libxml/xmlregexp.h
-/usr/include/libxml2/libxml/xmlsave.h
-/usr/include/libxml2/libxml/xmlschemas.h
-/usr/include/libxml2/libxml/xmlschemastypes.h
-/usr/include/libxml2/libxml/xmlstring.h
-/usr/include/libxml2/libxml/xmlunicode.h
-/usr/include/libxml2/libxml/xmlversion.h
-/usr/include/libxml2/libxml/xmlwriter.h
-/usr/include/libxml2/libxml/xpath.h
-/usr/include/libxml2/libxml/xpathInternals.h
-/usr/include/libxml2/libxml/xpointer.h
-/usr/lib64/cmake/libxml2/libxml2-config.cmake
-/usr/lib64/libxml2.so
-/usr/lib64/pkgconfig/libxml-2.0.pc
-/usr/share/aclocal/*.m4
-
-%files doc
-%defattr(0644,root,root,0755)
-/usr/share/doc/libxml2/xmlcatalog.html
-/usr/share/doc/libxml2/xmllint.html
-/usr/share/gtk-doc/html/libxml2/general.html
-/usr/share/gtk-doc/html/libxml2/home.png
-/usr/share/gtk-doc/html/libxml2/index.html
-/usr/share/gtk-doc/html/libxml2/left.png
-/usr/share/gtk-doc/html/libxml2/libxml2-HTMLparser.html
-/usr/share/gtk-doc/html/libxml2/libxml2-HTMLtree.html
-/usr/share/gtk-doc/html/libxml2/libxml2-SAX.html
-/usr/share/gtk-doc/html/libxml2/libxml2-SAX2.html
-/usr/share/gtk-doc/html/libxml2/libxml2-c14n.html
-/usr/share/gtk-doc/html/libxml2/libxml2-catalog.html
-/usr/share/gtk-doc/html/libxml2/libxml2-chvalid.html
-/usr/share/gtk-doc/html/libxml2/libxml2-debugXML.html
-/usr/share/gtk-doc/html/libxml2/libxml2-dict.html
-/usr/share/gtk-doc/html/libxml2/libxml2-encoding.html
-/usr/share/gtk-doc/html/libxml2/libxml2-entities.html
-/usr/share/gtk-doc/html/libxml2/libxml2-globals.html
-/usr/share/gtk-doc/html/libxml2/libxml2-hash.html
-/usr/share/gtk-doc/html/libxml2/libxml2-list.html
-/usr/share/gtk-doc/html/libxml2/libxml2-nanoftp.html
-/usr/share/gtk-doc/html/libxml2/libxml2-nanohttp.html
-/usr/share/gtk-doc/html/libxml2/libxml2-parser.html
-/usr/share/gtk-doc/html/libxml2/libxml2-parserInternals.html
-/usr/share/gtk-doc/html/libxml2/libxml2-pattern.html
-/usr/share/gtk-doc/html/libxml2/libxml2-relaxng.html
-/usr/share/gtk-doc/html/libxml2/libxml2-schemasInternals.html
-/usr/share/gtk-doc/html/libxml2/libxml2-schematron.html
-/usr/share/gtk-doc/html/libxml2/libxml2-threads.html
-/usr/share/gtk-doc/html/libxml2/libxml2-tree.html
-/usr/share/gtk-doc/html/libxml2/libxml2-uri.html
-/usr/share/gtk-doc/html/libxml2/libxml2-valid.html
-/usr/share/gtk-doc/html/libxml2/libxml2-xinclude.html
-/usr/share/gtk-doc/html/libxml2/libxml2-xlink.html
-/usr/share/gtk-doc/html/libxml2/libxml2-xmlIO.html
-/usr/share/gtk-doc/html/libxml2/libxml2-xmlautomata.html
-/usr/share/gtk-doc/html/libxml2/libxml2-xmlerror.html
-/usr/share/gtk-doc/html/libxml2/libxml2-xmlexports.html
-/usr/share/gtk-doc/html/libxml2/libxml2-xmlmemory.html
-/usr/share/gtk-doc/html/libxml2/libxml2-xmlmodule.html
-/usr/share/gtk-doc/html/libxml2/libxml2-xmlreader.html
-/usr/share/gtk-doc/html/libxml2/libxml2-xmlregexp.html
-/usr/share/gtk-doc/html/libxml2/libxml2-xmlsave.html
-/usr/share/gtk-doc/html/libxml2/libxml2-xmlschemas.html
-/usr/share/gtk-doc/html/libxml2/libxml2-xmlschemastypes.html
-/usr/share/gtk-doc/html/libxml2/libxml2-xmlstring.html
-/usr/share/gtk-doc/html/libxml2/libxml2-xmlunicode.html
-/usr/share/gtk-doc/html/libxml2/libxml2-xmlversion.html
-/usr/share/gtk-doc/html/libxml2/libxml2-xmlwriter.html
-/usr/share/gtk-doc/html/libxml2/libxml2-xpath.html
-/usr/share/gtk-doc/html/libxml2/libxml2-xpathInternals.html
-/usr/share/gtk-doc/html/libxml2/libxml2-xpointer.html
-/usr/share/gtk-doc/html/libxml2/libxml2.devhelp2
-/usr/share/gtk-doc/html/libxml2/right.png
-/usr/share/gtk-doc/html/libxml2/style.css
-/usr/share/gtk-doc/html/libxml2/up.png
 
 %files lib
 %defattr(-,root,root,-)
@@ -306,16 +246,3 @@ GOAMD64=v2
 %files license
 %defattr(0644,root,root,0755)
 /usr/share/package-licenses/compat-libxml2-soname2/8b8a61fcd505743acbe94866f4f73b2fdf1f359f
-
-%files man
-%defattr(0644,root,root,0755)
-/usr/share/man/man1/xml2-config.1
-/usr/share/man/man1/xmlcatalog.1
-/usr/share/man/man1/xmllint.1
-
-%files python
-%defattr(-,root,root,-)
-
-%files python3
-%defattr(-,root,root,-)
-/usr/lib/python3*/*
